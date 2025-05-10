@@ -2,6 +2,11 @@
 
 A Vue.js integration library for [Convex](https://convex.dev) - the backend application platform with a built-in database.
 
+## Features
+
+- Supports Convex realtime queries
+- SSR and SSG support via suspense
+
 ## Installation
 
 ```bash
@@ -20,16 +25,16 @@ bun add convex-vue
 
 ## Usage
 
-### Setup
+Convex Vue is a Vue 3 plugin. Simply add it to your Vue app and use the provided composables.
 
 ```js
 import { createApp } from 'vue'
-import { convexVuePlugin } from 'convex-vue'
+import { convexVue } from 'convex-vue'
 import App from './App.vue'
 
 const app = createApp(App)
 
-app.use(convexVuePlugin, {
+app.use(convexVue, {
   url: 'your-convex-deployment-url'
 })
 
@@ -40,6 +45,8 @@ app.mount('#app')
 
 #### useConvexClient
 
+The `useConvexClient` composable provides access to the Convex client instance. You can use it to call Convex functions directly or implement custom logic.
+
 ```js
 import { useConvexClient } from 'convex-vue'
 
@@ -49,6 +56,9 @@ const client = useConvexClient()
 
 #### useConvexQuery
 
+The `useConvexQuery` composable is used to fetch data from Convex. It automatically handles subscriptions and reactivity, so your components will update in real time when the data changes.
+On the server, it will trigger a standard query (without subscription).
+
 ```js
 import { useConvexQuery } from 'convex-vue'
 import { api } from '../convex/_generated/api'
@@ -57,7 +67,7 @@ import { api } from '../convex/_generated/api'
 const { data, isLoading, error } = useConvexQuery(api.myModule.myQuery, { param: 'value' })
 ```
 
-**Suspense and SSR Support**
+#### Suspense and SSR Support
 
 By default when using `useConvexQuery`, the data property will be undefined until the query is complete.
 By using the suspense function, you can await the result of the query. This is useful for server-side rendering (SSR) 
