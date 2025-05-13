@@ -26,8 +26,6 @@ export const useConvexQuery = <Query extends FunctionReference<'query'>>(
 
   const error = ref<Error | null>()
 
-
-
   const { resolve, reject, suspense } =
     useDeferredPromise<FunctionReturnType<Query>>()
 
