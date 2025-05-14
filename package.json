@@ -1,6 +1,6 @@
 {
     "name": "convex-vue",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "type": "module",
     "keywords": [
         "vue",
@@ -26,6 +26,7 @@
     "scripts": {
         "dev": "unbuild --watch",
         "build": "unbuild",
+        "release": "changelogen --release && npm publish && git push --follow-tags",
         "typecheck": "vue-tsc --noEmit",
         "prepublishOnly": "bun run build",
         "lint": "eslint . --fix"
@@ -38,6 +39,7 @@
         "@eslint/js": "9.26.0",
         "@typescript-eslint/eslint-plugin": "8.32.0",
         "@typescript-eslint/parser": "8.32.0",
+        "changelogen": "^0.6.1",
         "eslint": "9.26.0",
         "eslint-plugin-oxlint": "0.16.9",
         "eslint-plugin-simple-import-sort": "12.1.1",
