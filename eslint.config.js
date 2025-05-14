@@ -1,11 +1,11 @@
-import oxlint from 'eslint-plugin-oxlint'
-import vue from 'eslint-plugin-vue'
 import js from '@eslint/js'
+import tsPlugin from '@typescript-eslint/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
+import oxlint from 'eslint-plugin-oxlint'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import vue from 'eslint-plugin-vue'
 import globals from 'globals'
 import vueParser from 'vue-eslint-parser'
-import tsParser from '@typescript-eslint/parser'
-import tsPlugin from '@typescript-eslint/eslint-plugin'
-import simpleImportSort from 'eslint-plugin-simple-import-sort'
 
 export default [
   js.configs.recommended,

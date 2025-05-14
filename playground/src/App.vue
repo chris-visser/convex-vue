@@ -1,10 +1,11 @@
-
+`
 <script setup lang="ts">
-import { useConvexQuery } from 'convex-vue'
+import { useConvexMutation,useConvexQuery } from 'convex-vue'
 
 import { api } from '../convex/_generated/api'
 
 const { data, error, isLoading } = useConvexQuery(api.tasks.get)
+const remove = useConvexMutation(api.tasks.remove)
 
 </script>
 
@@ -31,6 +32,12 @@ const { data, error, isLoading } = useConvexQuery(api.tasks.get)
           :checked="isCompleted"
         >
         <label :for="_id">{{ text }}</label>
+        <button
+          type="button"
+          @click="() => remove({ id: _id })"
+        >
+          X
+        </button>
       </li>
     </ul>
   </div>
@@ -53,5 +60,12 @@ li {
   padding: 0.5rem 0.5rem;
   border-bottom: 1px solid #ccc;
   text-align: left;
+  width: 100%;
 }
+
+li button {
+  margin-left: auto;
+}
+
 </style>
+`
