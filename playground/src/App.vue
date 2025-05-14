@@ -1,22 +1,50 @@
 `
 <script setup lang="ts">
 import { useConvexMutation,useConvexQuery } from 'convex-vue'
+import { ref } from 'vue'
 
 import { api } from '../convex/_generated/api'
 
 const { data, error, isLoading } = useConvexQuery(api.tasks.get)
-const remove = useConvexMutation(api.tasks.remove)
+const { error: removeError, mutate: remove } = useConvexMutation(api.tasks.remove)
+const newTask = ref('')
+const { mutate: addTask, isLoading: isNewTaskLoading } = useConvexMutation(api.tasks.add)
 
+const handleNewTask = () => {
+  if (newTask.value.trim() === '') {
+    return
+  }
+  addTask({ text: newTask.value })
+  newTask.value = ''
+}
 </script>
 
 <template>
   <div>
     <h1>Tasks</h1>
+    
+    <form @submit.prevent="handleNewTask">
+      <input
+        v-model="newTask"
+        name="task"
+        type="text"
+        placeholder="Add a task"
+      >
+      <button
+        type="submit"
+      >
+        <span v-if="isNewTaskLoading">Saving..</span>
+        <span v-else>Save</span>
+      </button>
+    </form>
     <p v-if="isLoading">
       Loading...
     </p>
-    <p v-if="error">
-      Error: {{ error.message }}
+    <p
+      v-if="error || removeError"
+      class="error"
+    >
+      Error: {{ error?.message || removeError?.message }}
     </p>
     <ul v-if="data">
       <li v-if="data.length === 0">
@@ -36,7 +64,8 @@ const remove = useConvexMutation(api.tasks.remove)
           type="button"
           @click="() => remove({ id: _id })"
         >
-          X
+          <span v-if="isLoading">...</span>
+          <span v-else>X</span>
         </button>
       </li>
     </ul>
@@ -65,6 +94,10 @@ li {
 
 li button {
   margin-left: auto;
+}
+
+.error {
+  color: red;
 }
 
 </style>

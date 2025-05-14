@@ -67,6 +67,22 @@ import { api } from '../convex/_generated/api'
 const { data, isLoading, error } = useConvexQuery(api.myModule.myQuery, { param: 'value' })
 ```
 
+#### useConvexMutation
+The `useConvexMutation` composable is used to call Convex mutations. It provides a function that you can call to trigger the mutation, and it automatically handles loading and error states.
+
+```js
+import { useConvexMutation } from 'convex-vue'
+import { api } from '../convex/_generated/api'
+// In your component or composable
+const { mutate, isLoading, error } = useConvexMutation(api.myModule.myMutation)
+
+const handleClick = async () => {
+  // mutate returns a promise with an object that contains a result or error property
+  const { result, error: mutationError } = mutate({ param: 'value' })
+
+}
+```
+
 #### Suspense and SSR Support
 
 By default when using `useConvexQuery`, the data property will be undefined until the query is complete.

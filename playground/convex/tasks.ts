@@ -9,6 +9,13 @@ export const get = query({
   },
 });
 
+export const add = mutation({
+  args: { text: v.string() },
+  handler: async (ctx, args) => {
+    return ctx.db.insert("tasks", { text: args.text });
+  },
+});
+
 export const remove = mutation({
   args: { id: v.id('tasks') },
   handler: async (ctx, args) => {
