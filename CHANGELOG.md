@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.4
+
+[compare changes](https://github.com/chris-visser/convex-vue/compare/v0.0.3...v0.0.4)
+
+### 🚀 Enhancements
+
+- Return isLoading and error refs on mutations ([72b5f65](https://github.com/chris-visser/convex-vue/commit/72b5f65))
+
+### ❤️ Contributors
+
+- Chris Visser ([@chris-visser](https://github.com/chris-visser))
+
 ## v0.0.3
 
 
