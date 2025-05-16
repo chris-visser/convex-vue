@@ -4,10 +4,9 @@ import {
   type FunctionReturnType,
   getFunctionName,
 } from 'convex/server'
-import { computed,type MaybeRef, type MaybeRefOrGetter, ref, toValue } from 'vue'
+import { computed,type MaybeRef, type MaybeRefOrGetter, ref, toValue, watch } from 'vue'
 
 import { useConvexClient } from './useConvexClient'
-import { useDeferredPromise } from './useDeferredPromise'
 
 export type UseConvexQueryOptions = {
   enabled?: MaybeRef<boolean>;
@@ -26,19 +25,39 @@ export const useConvexQuery = <Query extends FunctionReference<'query'>>(
 
   const error = ref<Error | null>()
 
-  const { resolve, reject, suspense } =
-    useDeferredPromise<FunctionReturnType<Query>>()
+  const suspense = () => {
+    if (data.value) {
+      return Promise.resolve(data.value)
+    }
+    if (error.value) {
+      return Promise.reject(error.value)
+    }
+
+    return new Promise<FunctionReturnType<Query>>((resolve, reject) => {
+      const stop = watch(
+        () => [data.value, error.value],
+        ([newData, newError]) => {
+          if (newData) {
+            stop()
+            resolve(newData)
+          } else if (newError) {
+            stop()
+            reject(newError)
+          }
+        },
+        { immediate: true }
+      )
+    })
+  }
 
   const handleError = (err: Error) => {
     data.value = null
     error.value = err
-    reject(err)
   }
 
   const handleResult = (result: FunctionReturnType<Query>) => {
     data.value = result
     error.value = null
-    resolve(result)
   }
 
   if (typeof window !== 'undefined') {
@@ -51,9 +70,18 @@ export const useConvexQuery = <Query extends FunctionReference<'query'>>(
   } else {
     // On the server, subscriptions are not available, so we need to
     // call the query function directly to support SSR.
-    convex.query(query, toValue(args))
+    const promise = convex.query(query, toValue(args))
     .then(handleResult)
     .catch(handleError)
+
+    return {
+      suspense: () => promise,
+      data: computed(() => data.value),
+      error: computed(() => error.value),
+      isLoading: computed(() => data.value === undefined),
+    }
+
+
   }
 
   return {

@@ -1,6 +1,5 @@
 import type { FunctionArgs, FunctionReference } from "convex/server";
-import type { ConvexError } from "convex/values";
-import { type MaybeRefOrGetter,ref,toValue } from "vue";
+import { type MaybeRefOrGetter,ref,toValue,computed } from "vue";
 
 import { useConvexClient } from "./useConvexClient";
 
@@ -9,23 +8,26 @@ import { useConvexClient } from "./useConvexClient";
  */
 export const useConvexMutation = <Mutation extends FunctionReference<'mutation'>>(mutationReference: Mutation) => {
     const client = useConvexClient();
-    const isLoading = ref(false);
-    const error = ref<Error | null>(null);
+    const isLoadingRef = ref(false);
+    const errorRef = ref<Error | null>(null);
+
+    const isLoading = computed(() => isLoadingRef.value);
+    const error = computed(() => errorRef.value);
 
     const mutate = async (args: MaybeRefOrGetter<FunctionArgs<Mutation>>) => {
-        isLoading.value = true
-        error.value = null
+        isLoadingRef.value = true
+        errorRef.value = null
 
         return client.mutation(mutationReference, toValue(args))
             .then((result) => {
                 return { result }
             })
             .catch(err => {
-                error.value = err
-                return { error: error.value }
+                errorRef.value = err
+                return { error: errorRef.value }
             })
             .finally(() => {
-                isLoading.value = false
+                isLoadingRef.value = false
             })
     }
 
