@@ -11,6 +11,7 @@ export const convexVue: ObjectPlugin<{ url: string }> = {
     }
     
     const client = new ConvexClient(options.url)
+
     app.provide('convex', client)
   },
 }
