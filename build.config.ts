@@ -1,18 +1,18 @@
 import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
-  entries: ['./src/index'],
-  declaration: true,
   clean: true,
+  declaration: true,
+  entries: ['./src/index'],
+  externals: [
+    'vue',
+    'convex',
+    '@vue/shared'
+  ],
   rollup: {
     emitCJS: true,
     esbuild: {
       minify: true
     }
   },
-  externals: [
-    'vue',
-    'convex',
-    '@vue/shared'
-  ],
 })

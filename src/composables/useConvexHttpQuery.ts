@@ -1,10 +1,11 @@
+import { ConvexHttpClient } from 'convex/browser'
 import {
     type FunctionArgs,
     type FunctionReference,
   } from 'convex/server'
-import { inject, type MaybeRefOrGetter,toValue } from 'vue'
+import {  type MaybeRefOrGetter,toValue } from 'vue'
 
-import { ConvexHttpClient } from '../plugin'
+import { useConvexClient } from './useConvexClient'
 
 /**
  * A composable that returns a function to call a Convex query via the Convex HTTP API.
@@ -14,7 +15,9 @@ export const useConvexHttpQuery = <Query extends FunctionReference<'query'>>(
   query: Query,
   args: MaybeRefOrGetter<FunctionArgs<Query>> = {},
 ) => {
-    const httpClient = inject<ConvexHttpClient>('convex-http')
+    const client = useConvexClient()
+
+    const httpClient = new ConvexHttpClient(client.client.url)
 
     if (!httpClient) {
       throw new Error('Convex HTTP client not found')

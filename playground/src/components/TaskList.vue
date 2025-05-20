@@ -14,7 +14,7 @@ if(props.isSync) {
 
 const { error: removeError, mutate: remove } = useConvexMutation(api.tasks.remove)
 const newTask = ref('')
-const { mutate: addTask, isLoading: isNewTaskLoading } = useConvexMutation(api.tasks.add)
+const { isLoading: isNewTaskLoading, mutate: addTask } = useConvexMutation(api.tasks.add)
 
 const handleNewTask = () => {
   if (newTask.value.trim() === '') {
