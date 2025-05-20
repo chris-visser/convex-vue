@@ -29,7 +29,7 @@
         "release": "changelogen --release && npm publish && git push --follow-tags",
         "typecheck": "vue-tsc --noEmit",
         "prepublishOnly": "bun run build",
-        "lint": "eslint . --fix"
+        "lint": "eslint ."
     },
     "peerDependencies": {
         "vue": ">=3.5.0",
@@ -42,7 +42,7 @@
         "changelogen": "^0.6.1",
         "eslint": "9.26.0",
         "eslint-plugin-oxlint": "0.16.9",
-        "eslint-plugin-simple-import-sort": "12.1.1",
+        "eslint-plugin-perfectionist": "^4.13.0",
         "eslint-plugin-vue": "10.1.0",
         "oxlint": "0.16.9",
         "typescript": "5.8.3",

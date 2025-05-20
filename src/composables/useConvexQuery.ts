@@ -60,34 +60,30 @@ export const useConvexQuery = <Query extends FunctionReference<'query'>>(
     error.value = null
   }
 
-  if (typeof window !== 'undefined') {
-    convex.onUpdate(
-      query,
-      toValue(args),
-      handleResult,
-      handleError,
-    )
-  } else {
-    // On the server, subscriptions are not available, so we need to
-    // call the query function directly to support SSR.
-    const promise = convex.query(query, toValue(args))
-    .then(handleResult)
-    .catch(handleError)
 
+  const isServer = typeof window === 'undefined'
+
+  if (isServer) {
     return {
-      suspense: () => promise,
-      data: computed(() => data.value),
-      error: computed(() => error.value),
+      data,
+      error,
       isLoading: computed(() => data.value === undefined),
+      suspense: () => Promise.resolve(),
     }
-
-
   }
 
+  convex.onUpdate(
+    query,
+    toValue(args),
+    handleResult,
+    handleError,
+  )
+
   return {
-    suspense,
     data,
     error,
     isLoading: computed(() => data.value === undefined),
+    suspense,
   }
 }
+

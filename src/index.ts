@@ -1,5 +1,6 @@
-export { convexVue } from './plugin'
-
 export { useConvexClient } from './composables/useConvexClient'
-export { useConvexQuery } from './composables/useConvexQuery'
+
+export { useConvexHttpQuery } from './composables/useConvexHttpQuery'
 export { useConvexMutation } from './composables/useConvexMutation'
+export { useConvexQuery } from './composables/useConvexQuery'
+export { convexVue } from './plugin'
