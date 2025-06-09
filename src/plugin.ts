@@ -48,7 +48,7 @@ export const convexVue: ObjectPlugin<ConvexVueOptions> = {
     if (!options.manualInit)
       initClient(options)
 
-    app.provide<ConvexVueContext>('convex', {
+    app.provide<ConvexVueContext>('convex-vue', {
       options,
       clientRef,
       initClient,

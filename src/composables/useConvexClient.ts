@@ -6,7 +6,7 @@ import { inject } from 'vue'
  * Returns the Convex client instance.
  */
 export function useConvexClient(): ConvexClient {
-  const convexVueContext = inject<ConvexVueContext>('convex')
+  const convexVueContext = inject<ConvexVueContext>('convex-vue')
   if (!convexVueContext)
     throw new Error('Context not found')
 
