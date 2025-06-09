@@ -4,21 +4,21 @@
    * You can modify it, but some settings are required to use Convex.
    */
   "compilerOptions": {
-    /* These settings are not required by Convex and can be modified. */
-    "allowJs": true,
-    "strict": true,
-    "moduleResolution": "Bundler",
-    "jsx": "react-jsx",
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
 
     /* These compiler options are required by Convex */
     "target": "ESNext",
+    "jsx": "react-jsx",
     "lib": ["ES2021", "dom"],
-    "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
+    "moduleResolution": "Bundler",
+    /* These settings are not required by Convex and can be modified. */
+    "allowJs": true,
+    "strict": true,
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "noEmit": true
+    "skipLibCheck": true
   },
   "include": ["./**/*"],
   "exclude": ["./_generated"]

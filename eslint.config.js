@@ -1,75 +1,39 @@
-import js from '@eslint/js'
-import tsPlugin from '@typescript-eslint/eslint-plugin'
-import tsParser from '@typescript-eslint/parser'
-import oxlint from 'eslint-plugin-oxlint'
-import perfectionist from 'eslint-plugin-perfectionist'
-import vue from 'eslint-plugin-vue'
-import globals from 'globals'
-import vueParser from 'vue-eslint-parser'
+import antfu from '@antfu/eslint-config'
 
+export default antfu(
+  {
+    // Type of the project. 'lib' | 'app' (default 'app')
+    type: 'lib',
 
-export default [
-  js.configs.recommended,
-  ...vue.configs['flat/recommended'],
-  ...tsPlugin.configs['flat/recommended'],
-  ...oxlint.configs['flat/recommended'],
-  perfectionist.configs['recommended-natural'],
-  {
-    ignores: ['**/dist', '**/node_modules'],
+    // Customize the stylistic rules
+    stylistic: {
+      indent: 2, // 4, or 'tab'
+      quotes: 'single', // or 'double'
+    },
+
+    // TypeScript and Vue are autodetected, you can also explicitly enable them:
+    typescript: true,
+    // vue: true,
+
+    // ESLint ignore globs here
+    ignores: [
+      '**/convex/_generated/**',
+    ],
   },
   {
-    files: ['*.ts', '*.tsx', '**/*.ts', '**/*.tsx'],
-    languageOptions: {
-      parser: tsParser,
-    },
-  },
-  {
-    files: ['**/*.vue'],
-    languageOptions: {
-      parser: vueParser,
-      parserOptions: {
-        extraFileExtensions: ['.vue'],
-        parser: tsParser
-      },
-    },
-  },
-  {
-    // files: ['**/*.ts'],
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node
-      },
-      parser: vueParser,
-      parserOptions: {
-        extraFileExtensions: ['.vue'],
-        parser: tsParser
-      }
-    },
     rules: {
-      quotes: ['error', 'single'],
-      semi: ['error', 'never'],
-    }
-  },
-  {
-    ...perfectionist.configs['recommended-natural'],
-    rules: {
-      ...perfectionist.configs['recommended-natural'].rules,
-      'perfectionist/sort-imports': [
-        'error',
-        {
-
-          // customGroups: [{
-          //   elementNamePattern: '^vue$',
-          //   groupName: 'vue',
-          //   selector: 'import',
-          // }],
-          groups: [
-            ['builtin', 'external', 'internal'],
-          ],
-          newlinesBetween: 'always',
-        },
-      ],
+      // Relaxes inline statements a bit
+      'style/max-statements-per-line': ['error', { max: 2 }],
+      'ts/explicit-function-return-type': 'off',
     },
   },
-]
+  // Allow trailing space for markdown formatting
+  {
+    files: ['**/*.md'],
+    rules: {
+      // // Experimental: allow multiple empty lines, this reduce conflicts AI Agents docs edits.
+      // 'style/no-multiple-empty-lines': 'off',
+      'style/no-trailing-spaces': 'off',
+    },
+  },
+)

@@ -24,5 +24,5 @@ export const remove = mutation({
       throw new Error('Task not found')
     }
     await ctx.db.delete(task._id)
-  }
+  },
 })
