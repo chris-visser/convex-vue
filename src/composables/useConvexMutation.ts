@@ -9,11 +9,11 @@ import { useConvexClient } from './useConvexClient'
  */
 export function useConvexMutation<Mutation extends FunctionReference<'mutation'>>(mutationReference: Mutation) {
   const client = useConvexClient()
-  const isLoading = ref(false)
+  const isPending = ref(false)
   const error = ref<Error | null>(null)
 
   const mutate = async (args: MaybeRefOrGetter<FunctionArgs<Mutation>>) => {
-    isLoading.value = true
+    isPending.value = true
     error.value = null
 
     return client.mutation(mutationReference, toValue(args))
@@ -25,9 +25,9 @@ export function useConvexMutation<Mutation extends FunctionReference<'mutation'>
         return { error: error.value }
       })
       .finally(() => {
-        isLoading.value = false
+        isPending.value = false
       })
   }
 
-  return { error, isLoading, mutate }
+  return { error, isPending, mutate }
 }

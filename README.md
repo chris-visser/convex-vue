@@ -92,7 +92,7 @@ import { useConvexQuery } from 'convex-vue'
 import { api } from '../convex/_generated/api'
 
 // In your component or composable
-const { data, isLoading, error } = useConvexQuery(api.myModule.myQuery, { param: 'value' })
+const { data, isPending, error } = useConvexQuery(api.myModule.myQuery, { param: 'value' })
 ```
 
 #### useConvexMutation
@@ -103,7 +103,7 @@ The `useConvexMutation` composable is used to call Convex mutations. It provides
 import { useConvexMutation } from 'convex-vue'
 import { api } from '../convex/_generated/api'
 // In your component or composable
-const { mutate, isLoading, error } = useConvexMutation(api.myModule.myMutation)
+const { mutate, isPending, error } = useConvexMutation(api.myModule.myMutation)
 
 async function handleClick() {
   // mutate returns a promise with an object that contains a result or error property

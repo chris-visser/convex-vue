@@ -7,7 +7,7 @@ import { api } from '../../convex/_generated/api'
 const props = defineProps<{
   isSync?: boolean
 }>()
-const { data, error, isLoading, suspense } = useConvexQuery(api.tasks.get)
+const { data, error, isPending, suspense } = useConvexQuery(api.tasks.get)
 
 if (props.isSync) {
   await suspense()
@@ -15,7 +15,7 @@ if (props.isSync) {
 
 const { error: removeError, mutate: remove } = useConvexMutation(api.tasks.remove)
 const newTask = ref('')
-const { isLoading: isNewTaskLoading, mutate: addTask } = useConvexMutation(api.tasks.add)
+const { isPending: isNewTaskLoading, mutate: addTask } = useConvexMutation(api.tasks.add)
 
 function handleNewTask() {
   if (newTask.value.trim() === '') {
@@ -43,7 +43,7 @@ function handleNewTask() {
         <span v-else>Save</span>
       </button>
     </form>
-    <p v-if="isLoading">
+    <p v-if="isPending">
       Loading...
     </p>
     <p
@@ -70,7 +70,7 @@ function handleNewTask() {
           type="button"
           @click="() => remove({ id: _id })"
         >
-          <span v-if="isLoading">...</span>
+          <span v-if="isPending">...</span>
           <span v-else>X</span>
         </button>
       </li>
