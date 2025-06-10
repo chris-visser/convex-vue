@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "packageManager": "pnpm@10.11.0",
-  "description": "",
+  "description": "Convex integration for Vue",
   "author": "chris-visser",
   "license": "MIT",
   "funding": "https://github.com/sponsors/chris-visser",
@@ -13,7 +13,10 @@
     "url": "git+https://github.com/chris-visser/convex-vue.git"
   },
   "bugs": "https://github.com/chris-visser/convex-vue/issues",
-  "keywords": [],
+  "keywords": [
+    "vue",
+    "convex"
+  ],
   "sideEffects": false,
   "imports": {
     "#src/*": "./src/*"

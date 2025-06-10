@@ -47,7 +47,7 @@ npm install convex-vue
 # bun
 bun add convex-vue
 
-# pnpm (recommended)
+# pnpm
 pnpm install convex-vue
 ```
 

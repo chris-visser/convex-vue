@@ -6,8 +6,8 @@ See https://docs.convex.dev/functions for more.
 A query function that takes two arguments looks like:
 
 ```ts
-import { v } from 'convex/values'
 // functions.js
+import { v } from 'convex/values'
 import { query } from './_generated/server'
 
 export const myQueryFunction = query({
@@ -45,8 +45,8 @@ const data = useQuery(api.functions.myQueryFunction, {
 A mutation function looks like:
 
 ```ts
-import { v } from 'convex/values'
 // functions.js
+import { v } from 'convex/values'
 import { mutation } from './_generated/server'
 
 export const myMutationFunction = mutation({
