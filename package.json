@@ -1,56 +1,86 @@
 {
-    "name": "convex-vue",
-    "version": "0.0.5",
-    "type": "module",
-    "keywords": [
-        "vue",
-        "convex"
-    ],
-    "description": "Convex integration for Vue",
-    "author": "Chris Visser<hello@chrisvisser.io>",
-    "license": "MIT",
-    "repository": "https://github.com/chris-visser/convex-vue",
-    "exports": {
-        ".": {
-            "types": "./dist/index.d.ts",
-            "import": "./dist/index.mjs",
-            "require": "./dist/index.cjs"
-        }
-    },
-    "main": "./dist/index.cjs",
-    "module": "./dist/index.mjs",
-    "types": "./dist/index.d.ts",
-    "files": [
-        "dist"
-    ],
-    "scripts": {
-        "dev": "unbuild --watch",
-        "build": "unbuild",
-        "release": "changelogen --release && npm publish && git push --follow-tags",
-        "typecheck": "vue-tsc --noEmit",
-        "prepublishOnly": "bun run build",
-        "lint": "eslint ."
-    },
-    "peerDependencies": {
-        "vue": ">=3.5.0",
-        "convex": ">=1.24.0"
-    },
-    "devDependencies": {
-        "@eslint/js": "9.26.0",
-        "@typescript-eslint/eslint-plugin": "8.32.0",
-        "@typescript-eslint/parser": "8.32.0",
-        "changelogen": "^0.6.1",
-        "eslint": "9.26.0",
-        "eslint-plugin-oxlint": "0.16.9",
-        "eslint-plugin-perfectionist": "^4.13.0",
-        "eslint-plugin-vue": "10.1.0",
-        "oxlint": "0.16.9",
-        "typescript": "5.8.3",
-        "unbuild": "3.5.0",
-        "vue-eslint-parser": "10.1.3",
-        "vue-tsc": "2.2.10"
-    },
-    "publishConfig": {
-        "access": "public"
+  "name": "convex-vue",
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.11.0",
+  "description": "",
+  "author": "chris-visser",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/chris-visser",
+  "homepage": "https://github.com/chris-visser/convex-vue#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chris-visser/convex-vue.git"
+  },
+  "bugs": "https://github.com/chris-visser/convex-vue/issues",
+  "keywords": [],
+  "sideEffects": false,
+  "imports": {
+    "#src/*": "./src/*"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
     }
+  },
+  "main": "./dist/index.mjs",
+  "source": "./src/index.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "vitest",
+    "test:types": "tsc --noEmit",
+    "quickcheck": "pnpm run lint && pnpm run test:types",
+    "check": "pnpm run lint && pnpm run test:types && vitest run --coverage",
+    "stub": "obuild --stub",
+    "build": "obuild",
+    "prerelease": "pnpm run check",
+    "release": "pnpm dlx changelogen@latest --release --push --publish",
+    "prepare": "simple-git-hooks",
+    "prepublishOnly": "pnpm run build"
+  },
+  "peerDependencies": {
+    "convex": ">=1.24.0",
+    "vue": ">=3.5.0"
+  },
+  "dependencies": {
+    "consola": "^3.4.2",
+    "std-env": "^3.9.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.13.2",
+    "@namesmt/utils": "^0.5.13",
+    "@types/node": "^22.15.21",
+    "@vitest/coverage-v8": "^3.1.4",
+    "@vue/tsconfig": "^0.7.0",
+    "eslint": "^9.27.0",
+    "lint-staged": "^16.0.0",
+    "obuild": "^0.1.1",
+    "simple-git-hooks": "^2.13.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "is-core-module": "npm:@nolyfill/is-core-module@^1.0.39"
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "simple-git-hooks",
+      "unrs-resolver"
+    ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
 }

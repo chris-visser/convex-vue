@@ -1,27 +1,23 @@
+import type { FunctionArgs, FunctionReference, FunctionReturnType } from 'convex/server'
+import type { MaybeRef, MaybeRefOrGetter, Ref } from 'vue'
 import {
-  type FunctionArgs,
-  type FunctionReference,
-  type FunctionReturnType,
   getFunctionName,
 } from 'convex/server'
-import { computed,type MaybeRef, type MaybeRefOrGetter, ref, toValue, watch } from 'vue'
+import { computed, ref, toValue, watch } from 'vue'
 
 import { useConvexClient } from './useConvexClient'
 
-export type UseConvexQueryOptions = {
-  enabled?: MaybeRef<boolean>;
+export type { ComputedRef, MaybeRef, MaybeRefOrGetter } from 'vue'
+
+export interface UseConvexQueryOptions {
+  enabled?: MaybeRef<boolean>
 }
 
-export const useConvexQuery = <Query extends FunctionReference<'query'>>(
-  query: Query,
-  args: MaybeRefOrGetter<FunctionArgs<Query>> = {},
-) => {
+export function useConvexQuery<Query extends FunctionReference<'query'>>(query: Query, args: MaybeRefOrGetter<FunctionArgs<Query>> = {}) {
   const convex = useConvexClient()
 
   // Initial data
-  const data = ref<FunctionReturnType<Query>>(
-    convex.client.localQueryResult(getFunctionName(query), toValue(args)),
-  )
+  const data: Ref<FunctionReturnType<Query>> = ref<FunctionReturnType<Query>>(convex.client.localQueryResult(getFunctionName(query), toValue(args)))
 
   const error = ref<Error | null>()
 
@@ -40,12 +36,13 @@ export const useConvexQuery = <Query extends FunctionReference<'query'>>(
           if (newData) {
             stop()
             resolve(newData)
-          } else if (newError) {
+          }
+          else if (newError) {
             stop()
             reject(newError)
           }
         },
-        { immediate: true }
+        { immediate: true },
       )
     })
   }
@@ -59,7 +56,6 @@ export const useConvexQuery = <Query extends FunctionReference<'query'>>(
     data.value = result
     error.value = null
   }
-
 
   const isServer = typeof window === 'undefined'
 
@@ -86,4 +82,3 @@ export const useConvexQuery = <Query extends FunctionReference<'query'>>(
     suspense,
   }
 }
-

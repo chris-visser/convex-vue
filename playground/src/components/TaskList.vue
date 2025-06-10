@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { useConvexMutation,useConvexQuery } from 'convex-vue'
+import { useConvexMutation, useConvexQuery } from 'convex-vue'
 import { ref } from 'vue'
 
 import { api } from '../../convex/_generated/api'
+
 const props = defineProps<{
-    isSync?: boolean
+  isSync?: boolean
 }>()
 const { data, error, isLoading, suspense } = useConvexQuery(api.tasks.get)
 
-if(props.isSync) {
+if (props.isSync) {
   await suspense()
 }
 
@@ -16,7 +17,7 @@ const { error: removeError, mutate: remove } = useConvexMutation(api.tasks.remov
 const newTask = ref('')
 const { isLoading: isNewTaskLoading, mutate: addTask } = useConvexMutation(api.tasks.add)
 
-const handleNewTask = () => {
+function handleNewTask() {
   if (newTask.value.trim() === '') {
     return
   }
@@ -56,7 +57,7 @@ const handleNewTask = () => {
         No tasks found.
       </li>
       <li
-        v-for="{_id, text, isCompleted} in data"
+        v-for="{ _id, text, isCompleted } in data"
         :key="_id"
       >
         <input
@@ -104,5 +105,4 @@ li button {
 .error {
   color: red;
 }
-
 </style>

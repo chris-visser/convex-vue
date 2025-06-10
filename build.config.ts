@@ -1,18 +1,11 @@
-import { defineBuildConfig } from 'unbuild'
+import type { BuildConfig } from 'obuild'
+import { defineBuildConfig } from 'obuild/config'
 
 export default defineBuildConfig({
-  clean: true,
-  declaration: true,
-  entries: ['./src/index'],
-  externals: [
-    'vue',
-    'convex',
-    '@vue/shared'
+  entries: [
+    {
+      type: 'bundle',
+      input: 'src/index.ts',
+    },
   ],
-  rollup: {
-    emitCJS: true,
-    esbuild: {
-      minify: true
-    }
-  },
-})
+}) as BuildConfig
