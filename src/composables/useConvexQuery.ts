@@ -18,7 +18,6 @@ export function useConvexQuery<Query extends FunctionReference<'query'>>(query: 
 
   // Initial data
   const data: Ref<FunctionReturnType<Query>> = ref<FunctionReturnType<Query>>(convex.client.localQueryResult(getFunctionName(query), toValue(args)))
-
   const error = ref<Error | null>()
 
   const suspense = () => {
@@ -63,7 +62,7 @@ export function useConvexQuery<Query extends FunctionReference<'query'>>(query: 
     return {
       data,
       error,
-      isLoading: computed(() => data.value === undefined),
+      isPending: computed(() => data.value === undefined),
       suspense: () => Promise.resolve(),
     }
   }
@@ -78,7 +77,7 @@ export function useConvexQuery<Query extends FunctionReference<'query'>>(query: 
   return {
     data,
     error,
-    isLoading: computed(() => data.value === undefined),
+    isPending: computed(() => data.value === undefined),
     suspense,
   }
 }
