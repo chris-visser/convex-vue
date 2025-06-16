@@ -35,6 +35,7 @@
 
 + 👌 Supports Convex realtime queries
 + 🔄️ SSR and SSG support via suspense
++ 🎉 Optimistic updates for mutations
 
 ## Usage
 
