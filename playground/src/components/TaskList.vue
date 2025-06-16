@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import type { Id } from '../../convex/_generated/dataModel'
 import { useConvexMutation, useConvexQuery } from 'convex-vue'
-import { ref } from 'vue'
 
+import { ref } from 'vue'
 import { api } from '../../convex/_generated/api'
 
 const props = defineProps<{
@@ -15,7 +16,23 @@ if (props.isSync) {
 
 const { error: removeError, mutate: remove } = useConvexMutation(api.tasks.remove)
 const newTask = ref('')
-const { isPending: isNewTaskLoading, mutate: addTask } = useConvexMutation(api.tasks.add)
+const { isPending: isNewTaskLoading, mutate: addTask } = useConvexMutation(api.tasks.add, {
+  optimisticUpdate(ctx, { text }) {
+    const current = ctx.getQuery(api.tasks.get, {})
+    if (!current)
+      return
+
+    ctx.setQuery(api.tasks.get, {}, [
+      ...current,
+      {
+        _creationTime: Date.now(),
+        _id: 'optimistic_id' as Id<'tasks'>,
+        completed: false,
+        text,
+      },
+    ])
+  },
+})
 
 function handleNewTask() {
   if (newTask.value.trim() === '') {
