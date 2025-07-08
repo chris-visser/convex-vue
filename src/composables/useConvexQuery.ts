@@ -17,7 +17,7 @@ export function useConvexQuery<Query extends FunctionReference<'query'>>(query: 
   const convex = useConvexClient()
 
   // Initial data
-  const data: Ref<FunctionReturnType<Query>> = ref<FunctionReturnType<Query>>(convex.client.localQueryResult(getFunctionName(query), toValue(args)))
+  const data: Ref<FunctionReturnType<Query> | undefined> = ref<FunctionReturnType<Query> | undefined>(convex.client.localQueryResult(getFunctionName(query), toValue(args)))
   const error = ref<Error | null>()
 
   const suspense = () => {
