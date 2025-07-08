@@ -1,6 +1,83 @@
 # Changelog
 
 
+## v0.1.0
+
+[compare changes](https://github.com/chris-visser/convex-vue/compare/v0.0.5...v0.1.0)
+
+### 🚀 Enhancements
+
+- Support auth ([8fb4c46](https://github.com/chris-visser/convex-vue/commit/8fb4c46))
+- Add ability to manually and re-init the global client ([d1963e2](https://github.com/chris-visser/convex-vue/commit/d1963e2))
+- Support optimistic updates ([dd207b1](https://github.com/chris-visser/convex-vue/commit/dd207b1))
+
+### 💅 Refactors
+
+- Tiny code style fix ([ab32971](https://github.com/chris-visser/convex-vue/commit/ab32971))
+- Enforce consistent code style ([85e0f21](https://github.com/chris-visser/convex-vue/commit/85e0f21))
+- ⚠️  Major codebase refactor + various fixes ([cf80a47](https://github.com/chris-visser/convex-vue/commit/cf80a47))
+- ⚠️  UseContextMutation ([bb1eeab](https://github.com/chris-visser/convex-vue/commit/bb1eeab))
+
+### 🏡 Chore
+
+- Set `packageManager` ([ba7d764](https://github.com/chris-visser/convex-vue/commit/ba7d764))
+- Remove unintended log ([2f93a93](https://github.com/chris-visser/convex-vue/commit/2f93a93))
+- ⚠️  Change inject naming to `convex-vue` ([5d27a8a](https://github.com/chris-visser/convex-vue/commit/5d27a8a))
+- Post-restructure corrections ([adc33c9](https://github.com/chris-visser/convex-vue/commit/adc33c9))
+- ⚠️  Rename `isLoading` => `isPending` ([cf526c8](https://github.com/chris-visser/convex-vue/commit/cf526c8))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Major codebase refactor + various fixes ([cf80a47](https://github.com/chris-visser/convex-vue/commit/cf80a47))
+- ⚠️  UseContextMutation ([bb1eeab](https://github.com/chris-visser/convex-vue/commit/bb1eeab))
+- ⚠️  Change inject naming to `convex-vue` ([5d27a8a](https://github.com/chris-visser/convex-vue/commit/5d27a8a))
+- ⚠️  Rename `isLoading` => `isPending` ([cf526c8](https://github.com/chris-visser/convex-vue/commit/cf526c8))
+
+### ❤️ Contributors
+
+- Chris Visser ([@chris-visser](https://github.com/chris-visser))
+- NamesMT ([@NamesMT](https://github.com/NamesMT))
+- Trung Dang ([@NamesMT](https://github.com/NamesMT))
+
+## v0.0.6
+
+[compare changes](https://github.com/chris-visser/convex-vue/compare/v0.0.5...v0.2.0)
+
+### 🚀 Enhancements
+
+- Support auth ([8fb4c46](https://github.com/chris-visser/convex-vue/commit/8fb4c46))
+- Add ability to manually and re-init the global client ([d1963e2](https://github.com/chris-visser/convex-vue/commit/d1963e2))
+- Support optimistic updates ([0946c6e](https://github.com/chris-visser/convex-vue/commit/0946c6e))
+
+### 💅 Refactors
+
+- Tiny code style fix ([ab32971](https://github.com/chris-visser/convex-vue/commit/ab32971))
+- Enforce consistent code style ([85e0f21](https://github.com/chris-visser/convex-vue/commit/85e0f21))
+- ⚠️  Major codebase refactor + various fixes ([cf80a47](https://github.com/chris-visser/convex-vue/commit/cf80a47))
+- ⚠️  UseContextMutation ([bb1eeab](https://github.com/chris-visser/convex-vue/commit/bb1eeab))
+
+### 🏡 Chore
+
+- Set `packageManager` ([ba7d764](https://github.com/chris-visser/convex-vue/commit/ba7d764))
+- Remove unintended log ([2f93a93](https://github.com/chris-visser/convex-vue/commit/2f93a93))
+- ⚠️  Change inject naming to `convex-vue` ([5d27a8a](https://github.com/chris-visser/convex-vue/commit/5d27a8a))
+- Post-restructure corrections ([adc33c9](https://github.com/chris-visser/convex-vue/commit/adc33c9))
+- ⚠️  Rename `isLoading` => `isPending` ([cf526c8](https://github.com/chris-visser/convex-vue/commit/cf526c8))
+- Minor package bumps ([ec581fb](https://github.com/chris-visser/convex-vue/commit/ec581fb))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Major codebase refactor + various fixes ([cf80a47](https://github.com/chris-visser/convex-vue/commit/cf80a47))
+- ⚠️  UseContextMutation ([bb1eeab](https://github.com/chris-visser/convex-vue/commit/bb1eeab))
+- ⚠️  Change inject naming to `convex-vue` ([5d27a8a](https://github.com/chris-visser/convex-vue/commit/5d27a8a))
+- ⚠️  Rename `isLoading` => `isPending` ([cf526c8](https://github.com/chris-visser/convex-vue/commit/cf526c8))
+
+### ❤️ Contributors
+
+- Chris Visser ([@chris-visser](https://github.com/chris-visser))
+- NamesMT ([@NamesMT](https://github.com/NamesMT))
+- Trung Dang ([@NamesMT](https://github.com/NamesMT))
+
 ## v0.0.5
 
 [compare changes](https://github.com/chris-visser/convex-vue/compare/v0.0.3...v0.0.5)
