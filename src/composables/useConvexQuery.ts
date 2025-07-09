@@ -3,8 +3,8 @@ import type { MaybeRef, MaybeRefOrGetter, Ref } from 'vue'
 import {
   getFunctionName,
 } from 'convex/server'
-import { computed, ref, toValue, watch } from 'vue'
 
+import { computed, onScopeDispose, ref, toValue, watch } from 'vue'
 import { useConvexClient } from './useConvexClient'
 
 export type { ComputedRef, MaybeRef, MaybeRefOrGetter } from 'vue'
@@ -13,11 +13,15 @@ export interface UseConvexQueryOptions {
   enabled?: MaybeRef<boolean>
 }
 
-export function useConvexQuery<Query extends FunctionReference<'query'>>(query: Query, args: MaybeRefOrGetter<FunctionArgs<Query>> = {}) {
+export type EmptyObject = Record<string, never>
+export type OptionalRestArgsOrSkip<FuncRef extends FunctionReference<any>> = FuncRef['_args'] extends EmptyObject ? [args?: EmptyObject | undefined] : [args: MaybeRefOrGetter<FuncRef['_args']>]
+
+export function useConvexQuery<Query extends FunctionReference<'query'>>(query: Query, ...args: OptionalRestArgsOrSkip<Query>) {
   const convex = useConvexClient()
+  const queryArgs = computed(() => toValue(args[0]))
 
   // Initial data
-  const data: Ref<FunctionReturnType<Query> | undefined> = ref<FunctionReturnType<Query> | undefined>(convex.client.localQueryResult(getFunctionName(query), toValue(args)))
+  const data: Ref<FunctionReturnType<Query> | undefined> = ref<FunctionReturnType<Query> | undefined>(convex.client.localQueryResult(getFunctionName(query), queryArgs.value))
   const error = ref<Error | null>()
 
   const suspense = () => {
@@ -67,12 +71,27 @@ export function useConvexQuery<Query extends FunctionReference<'query'>>(query: 
     }
   }
 
-  convex.onUpdate(
-    query,
-    toValue(args),
-    handleResult,
-    handleError,
-  )
+  const createSubscription = (args: FunctionArgs<Query>) => {
+    return convex.onUpdate(
+      query,
+      args,
+      handleResult,
+      handleError,
+    )
+  }
+
+  // recreate subscription when args change
+  let cancelSubscription: () => void | undefined
+  watch(queryArgs, (newArgs) => {
+    cancelSubscription?.()
+
+    cancelSubscription = createSubscription(newArgs)
+  }, {
+    immediate: true,
+  })
+
+  // cleanup subscription when component is unmounted
+  onScopeDispose(() => cancelSubscription?.())
 
   return {
     data,
