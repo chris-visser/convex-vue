@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v0.1.1
+
+[compare changes](https://github.com/chris-visser/convex-vue/compare/v0.1.0...v0.1.1)
+
+### 🩹 Fixes
+
+- Add `undefined` to data return type of `useConvexQuery` ([77ffae5](https://github.com/chris-visser/convex-vue/commit/77ffae5))
+- Reactive query args & scope cleanup ([963e54f](https://github.com/chris-visser/convex-vue/commit/963e54f))
+
+### 📖 Documentation
+
+- Update readme for optimistic updates ([97c1985](https://github.com/chris-visser/convex-vue/commit/97c1985))
+
+### ❤️ Contributors
+
+- Louis Haftmann ([@LouisHaftmann](https://github.com/LouisHaftmann))
+- Chris Visser ([@chris-visser](https://github.com/chris-visser))
+
 ## v0.1.0
 
 [compare changes](https://github.com/chris-visser/convex-vue/compare/v0.0.5...v0.1.0)
