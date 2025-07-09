@@ -8,7 +8,10 @@ import { api } from '../../convex/_generated/api'
 const props = defineProps<{
   isSync?: boolean
 }>()
-const { data, error, isPending, suspense } = useConvexQuery(api.tasks.get)
+const limit = ref(10)
+const { data, error, isPending, suspense } = useConvexQuery(api.tasks.get, () => ({
+  limit: limit.value || undefined,
+}))
 
 if (props.isSync) {
   await suspense()
@@ -46,6 +49,10 @@ function handleNewTask() {
 <template>
   <div>
     <h1>Tasks</h1>
+    <p>
+      Limit:
+      <input v-model.number="limit">
+    </p>
     <form @submit.prevent="handleNewTask">
       <input
         v-model="newTask"
