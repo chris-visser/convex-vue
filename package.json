@@ -1,7 +1,7 @@
 {
   "name": "convex-vue",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "packageManager": "pnpm@10.11.0",
   "description": "Convex integration for Vue",
   "author": "chris-visser",
@@ -58,7 +58,6 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.14.1",
-    "@namesmt/utils": "^0.5.14",
     "@types/node": "^22.15.32",
     "@vitest/coverage-v8": "^3.2.3",
     "@vue/tsconfig": "^0.7.0",
