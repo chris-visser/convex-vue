@@ -5,7 +5,7 @@ import {
 } from 'convex/server'
 
 import { computed, onScopeDispose, ref, toValue, watch } from 'vue'
-import { useConvexClient } from './useConvexClient'
+import { useConvexClient, useConvexHttpClient } from './useConvexClient'
 
 export type { ComputedRef, MaybeRef, MaybeRefOrGetter } from 'vue'
 
@@ -16,13 +16,49 @@ export interface UseConvexQueryOptions {
 export type EmptyObject = Record<string, never>
 export type OptionalRestArgsOrSkip<FuncRef extends FunctionReference<any>> = FuncRef['_args'] extends EmptyObject ? [args?: EmptyObject | undefined] : [args: MaybeRefOrGetter<FuncRef['_args']>]
 
-export function useConvexQuery<Query extends FunctionReference<'query'>>(query: Query, ...args: OptionalRestArgsOrSkip<Query>) {
-  const convex = useConvexClient()
+export interface UseConvexQueryReturn<Query extends FunctionReference<'query'>> {
+  data: Ref<FunctionReturnType<Query> | undefined>
+  error: Ref<Error | null>
+  isPending: Ref<boolean>
+  suspense: () => Promise<FunctionReturnType<Query>>
+}
+
+export function useConvexQuery<Query extends FunctionReference<'query'>>(query: Query, ...args: OptionalRestArgsOrSkip<Query>): UseConvexQueryReturn<Query> {
   const queryArgs = computed(() => toValue(args[0]))
+
+  const isServer = typeof window === 'undefined'
+
+  // use http client on server-side
+  if (isServer) {
+    const convex = useConvexHttpClient()
+
+    const data = ref<FunctionReturnType<Query> | undefined>(undefined)
+    const error = ref<Error | null>(null)
+
+    // no need to watch queryArgs on server since reactivity is disabled during ssr
+    const promise = convex.query(query, queryArgs.value).then((result) => {
+      data.value = result
+      error.value = null
+      return result
+    }).catch((err) => {
+      data.value = undefined
+      error.value = err
+      throw err
+    })
+
+    return {
+      data,
+      error,
+      isPending: computed(() => data.value === undefined),
+      suspense: () => promise,
+    }
+  }
+
+  const convex = useConvexClient()
 
   // Initial data
   const data: Ref<FunctionReturnType<Query> | undefined> = ref<FunctionReturnType<Query> | undefined>(convex.client.localQueryResult(getFunctionName(query), queryArgs.value))
-  const error = ref<Error | null>()
+  const error = ref<Error | null>(null)
 
   const suspense = () => {
     if (data.value) {
@@ -58,17 +94,6 @@ export function useConvexQuery<Query extends FunctionReference<'query'>>(query: 
   const handleResult = (result: FunctionReturnType<Query>) => {
     data.value = result
     error.value = null
-  }
-
-  const isServer = typeof window === 'undefined'
-
-  if (isServer) {
-    return {
-      data,
-      error,
-      isPending: computed(() => data.value === undefined),
-      suspense: () => Promise.resolve(),
-    }
   }
 
   const createSubscription = (args: FunctionArgs<Query>) => {

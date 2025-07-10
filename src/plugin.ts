@@ -1,6 +1,7 @@
+import type { ConvexClientOptions } from 'convex/browser'
 import type { ObjectPlugin, Ref } from 'vue'
-import { ConvexClient } from 'convex/browser'
-import { ref } from 'vue'
+import { ConvexClient, ConvexHttpClient } from 'convex/browser'
+import { shallowRef } from 'vue'
 
 export interface ConvexAuthOptions {
   forceRefreshToken: boolean
@@ -8,6 +9,7 @@ export interface ConvexAuthOptions {
 
 export interface ConvexVueOptions {
   url: string
+  clientOptions?: ConvexClientOptions
   auth?: ConvexAuthOptions
 
   /**
@@ -17,40 +19,37 @@ export interface ConvexVueOptions {
   manualInit?: boolean
 }
 
-export interface ConvexClientOptions {
-  url: string
-}
-
 export interface ConvexVueContext {
   options: ConvexVueOptions
   clientRef: Ref<ConvexClient | undefined>
+  httpClientRef: Ref<ConvexHttpClient | undefined>
 
   /**
    * (Re-)init the global convex client with specified options.
    */
-  initClient: (options: ConvexClientOptions) => void
+  initClient: (url: string, options?: ConvexClientOptions) => void
 }
 
 export const convexVue: ObjectPlugin<ConvexVueOptions> = {
   install(app, options) {
-    const clientRef = ref<ConvexClient>()
-    const initClient = (options: ConvexClientOptions): void => {
-      if (!options?.url) {
-        throw new Error('"url" is required')
-      }
-      if (typeof options.url !== 'string') {
-        throw new TypeError('"url" must be a string')
-      }
+    const clientRef = shallowRef<ConvexClient>()
+    const httpClientRef = shallowRef<ConvexHttpClient>()
 
-      clientRef.value = new ConvexClient(options.url)
+    const initClient = (url: string, options?: ConvexClientOptions): void => {
+      clientRef.value = new ConvexClient(url, options)
+      httpClientRef.value = new ConvexHttpClient(url, {
+        logger: options?.logger,
+        skipConvexDeploymentUrlCheck: options?.skipConvexDeploymentUrlCheck,
+      })
     }
 
     if (!options.manualInit)
-      initClient(options)
+      initClient(options.url, options.clientOptions)
 
     app.provide<ConvexVueContext>('convex-vue', {
       options,
       clientRef,
+      httpClientRef,
       initClient,
     })
   },
