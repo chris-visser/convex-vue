@@ -2,7 +2,6 @@ import type { FunctionArgs, FunctionReference, FunctionReturnType } from 'convex
 import type { MaybeRefOrGetter } from 'vue'
 import { ConvexHttpClient } from 'convex/browser'
 import { toValue } from 'vue'
-
 import { useConvexClient } from './useConvexClient'
 
 /**
