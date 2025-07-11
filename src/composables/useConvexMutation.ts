@@ -1,7 +1,6 @@
 import type { OptimisticUpdate } from 'convex/browser'
 import type { FunctionArgs, FunctionReference } from 'convex/server'
 import type { MaybeRefOrGetter } from 'vue'
-
 import { computed, ref, toValue } from 'vue'
 import { useConvexClient } from './useConvexClient'
 
