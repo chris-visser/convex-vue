@@ -1,8 +1,7 @@
 import type { FunctionArgs, FunctionReference, FunctionReturnType } from 'convex/server'
 import type { MaybeRefOrGetter } from 'vue'
 import { toValue } from 'vue'
-
-import { useConvexHttpClient } from './useConvexClient'
+import { useConvexHttpClient } from './useConvexHttpClient'
 
 /**
  * A composable that returns a function to call a Convex query via the Convex HTTP API.

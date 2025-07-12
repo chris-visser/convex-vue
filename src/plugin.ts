@@ -17,6 +17,11 @@ export interface ConvexVueOptions {
    * you will need to init the client yourself before using the composables.
    */
   manualInit?: boolean
+  /**
+   * Set to `false` to disable queries during server-side rendering.
+   * This global option can be overridden for individual queries by setting their `server` option to `true`
+   */
+  server?: boolean
 }
 
 export interface ConvexVueContext {

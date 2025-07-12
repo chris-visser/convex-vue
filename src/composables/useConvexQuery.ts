@@ -1,20 +1,25 @@
 import type { FunctionArgs, FunctionReference, FunctionReturnType } from 'convex/server'
-import type { MaybeRef, MaybeRefOrGetter, Ref } from 'vue'
+import type { MaybeRefOrGetter, Ref } from 'vue'
 import {
   getFunctionName,
 } from 'convex/server'
 
 import { computed, onScopeDispose, ref, toValue, watch } from 'vue'
-import { useConvexClient, useConvexHttpClient } from './useConvexClient'
+import { useConvexClient } from './useConvexClient'
+import { useConvexContext } from './useConvexContext'
+import { useConvexHttpClient } from './useConvexHttpClient'
 
 export type { ComputedRef, MaybeRef, MaybeRefOrGetter } from 'vue'
 
 export interface UseConvexQueryOptions {
-  enabled?: MaybeRef<boolean>
+  /**
+   * Set to `false` to disable this query during server-side rendering.
+   */
+  server?: boolean
 }
 
 export type EmptyObject = Record<string, never>
-export type OptionalRestArgsOrSkip<FuncRef extends FunctionReference<any>> = FuncRef['_args'] extends EmptyObject ? [args?: EmptyObject | undefined] : [args: MaybeRefOrGetter<FuncRef['_args']>]
+export type OptionalRestArgsOrSkip<FuncRef extends FunctionReference<any>> = FuncRef['_args'] extends EmptyObject ? [args?: EmptyObject | undefined, opts?: UseConvexQueryOptions ] : [args: MaybeRefOrGetter<FuncRef['_args']>, opts?: UseConvexQueryOptions]
 
 export interface UseConvexQueryReturn<Query extends FunctionReference<'query'>> {
   data: Ref<FunctionReturnType<Query> | undefined>
@@ -25,8 +30,21 @@ export interface UseConvexQueryReturn<Query extends FunctionReference<'query'>> 
 
 export function useConvexQuery<Query extends FunctionReference<'query'>>(query: Query, ...args: OptionalRestArgsOrSkip<Query>): UseConvexQueryReturn<Query> {
   const queryArgs = computed(() => toValue(args[0]))
+  const opts = args[1]
 
+  const convexContext = useConvexContext()
   const isServer = typeof window === 'undefined'
+  const ssrEnabled = opts?.server ?? convexContext.options.server ?? true
+
+  // server-side but ssr explicitly disabled
+  if (isServer && !ssrEnabled) {
+    return {
+      data: ref(undefined),
+      error: ref(null),
+      isPending: ref(false),
+      suspense: () => Promise.resolve(undefined),
+    }
+  }
 
   // use http client on server-side
   if (isServer) {
