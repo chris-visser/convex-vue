@@ -1,6 +1,29 @@
 # Changelog
 
 
+## v0.1.2
+
+[compare changes](https://github.com/chris-visser/convex-vue/compare/v0.1.1...v0.1.2)
+
+### 🚀 Enhancements
+
+- Use http client on server ([af631c0](https://github.com/chris-visser/convex-vue/commit/af631c0))
+- Option to disable queries on server ([e51513c](https://github.com/chris-visser/convex-vue/commit/e51513c))
+
+### 🌊 Types
+
+- **useConvexQuery:** Improve condition, only require `args` input when necessary ([7ec72f8](https://github.com/chris-visser/convex-vue/commit/7ec72f8))
+
+### 🏡 Chore
+
+- **release:** V0.1.1 ([70900ef](https://github.com/chris-visser/convex-vue/commit/70900ef))
+
+### ❤️ Contributors
+
+- Louis Haftmann ([@LouisHaftmann](https://github.com/LouisHaftmann))
+- NamesMT ([@NamesMT](https://github.com/NamesMT))
+- Chris Visser ([@chris-visser](https://github.com/chris-visser))
+
 ## v0.1.1
 
 [compare changes](https://github.com/chris-visser/convex-vue/compare/v0.1.0...v0.1.1)
