@@ -1,14 +1,11 @@
 import type { ConvexClient } from 'convex/browser'
-import type { ConvexVueContext } from '../plugin'
-import { inject } from 'vue'
+import { useConvexContext } from './useConvexContext'
 
 /**
  * Returns the Convex client instance.
  */
 export function useConvexClient(): ConvexClient {
-  const convexVueContext = inject<ConvexVueContext>('convex-vue')
-  if (!convexVueContext)
-    throw new Error('Context not found')
+  const convexVueContext = useConvexContext()
 
   if (!convexVueContext.clientRef.value)
     throw new Error('Client not initialized')
