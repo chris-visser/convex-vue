@@ -1,15 +1,15 @@
+import type { OptionalRestArgsOrSkip } from '#src/types.ts'
 import type { FunctionArgs, FunctionReference, FunctionReturnType } from 'convex/server'
+
 import type { MaybeRefOrGetter, Ref } from 'vue'
+
 import {
   getFunctionName,
 } from 'convex/server'
-
 import { computed, onScopeDispose, ref, toValue, watch } from 'vue'
 import { useConvexClient } from './useConvexClient'
 import { useConvexContext } from './useConvexContext'
 import { useConvexHttpClient } from './useConvexHttpClient'
-
-export type { ComputedRef, MaybeRef, MaybeRefOrGetter } from 'vue'
 
 export interface UseConvexQueryOptions {
   /**
@@ -29,6 +29,7 @@ export interface UseConvexQueryReturn<Query extends FunctionReference<'query'>> 
 }
 
 export function useConvexQuery<Query extends FunctionReference<'query'>>(query: Query, ...args: OptionalRestArgsOrSkip<Query>): UseConvexQueryReturn<Query> {
+
   const queryArgs = computed(() => toValue(args[0]))
   const opts = args[1]
 
