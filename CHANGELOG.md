@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.4
+
+[compare changes](https://github.com/chris-visser/convex-vue/compare/v0.1.3...v0.1.4)
+
+### 🏡 Chore
+
+- Revert `initClient` options interface ([0e632fb](https://github.com/chris-visser/convex-vue/commit/0e632fb))
+
+### ❤️ Contributors
+
+- NamesMT ([@NamesMT](https://github.com/NamesMT))
+
 ## v0.1.3
 
 [compare changes](https://github.com/chris-visser/convex-vue/compare/v0.1.2...v0.1.3)
