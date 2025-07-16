@@ -1,4 +1,5 @@
 export { useConvexClient } from './composables/useConvexClient'
+export { useConvexHttpClient } from './composables/useConvexHttpClient'
 
 export { useConvexHttpQuery } from './composables/useConvexHttpQuery'
 export { useConvexMutation } from './composables/useConvexMutation'
