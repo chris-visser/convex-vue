@@ -32,27 +32,28 @@ export interface ConvexVueContext {
   /**
    * (Re-)init the global convex client with specified options.
    */
-  initClient: (url: string, options?: ConvexClientOptions) => void
+  initClient: (options?: ConvexVueOptions) => void
 }
 
 export const convexVue: ObjectPlugin<ConvexVueOptions> = {
-  install(app, options) {
+  install(app, initialOptions) {
     const clientRef = shallowRef<ConvexClient>()
     const httpClientRef = shallowRef<ConvexHttpClient>()
 
-    const initClient = (url: string, options?: ConvexClientOptions): void => {
-      clientRef.value = new ConvexClient(url, options)
-      httpClientRef.value = new ConvexHttpClient(url, {
-        logger: options?.logger,
-        skipConvexDeploymentUrlCheck: options?.skipConvexDeploymentUrlCheck,
+    const initClient = (options?: ConvexVueOptions): void => {
+      options ??= initialOptions
+      clientRef.value = new ConvexClient(options.url, options.clientOptions)
+      httpClientRef.value = new ConvexHttpClient(options.url, {
+        logger: options?.clientOptions?.logger,
+        skipConvexDeploymentUrlCheck: options.clientOptions?.skipConvexDeploymentUrlCheck,
       })
     }
 
-    if (!options.manualInit)
-      initClient(options.url, options.clientOptions)
+    if (!initialOptions.manualInit)
+      initClient(initialOptions)
 
     app.provide<ConvexVueContext>('convex-vue', {
-      options,
+      options: initialOptions,
       clientRef,
       httpClientRef,
       initClient,
