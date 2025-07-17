@@ -11,6 +11,10 @@ export type AreAllPropertiesOptional<T> =
     ? false
     : true
 
-export type OptionalRestArgsOrSkip<FuncRef extends FunctionReference<any>> = AreAllPropertiesOptional<FuncRef['_args']> extends true
+export type OptionalRestArgs<FuncRef extends FunctionReference<any>> = AreAllPropertiesOptional<FuncRef['_args']> extends true
   ? [args?: MaybeRefOrGetter<FuncRef['_args']>]
   : [args: MaybeRefOrGetter<FuncRef['_args']>]
+
+export type OptionalRestArgsAndOptions<FuncRef extends FunctionReference<any>, Options> = AreAllPropertiesOptional<FuncRef['_args']> extends true
+  ? [args?: MaybeRefOrGetter<FuncRef['_args']>, options?: Options]
+  : [args: MaybeRefOrGetter<FuncRef['_args']>, options?: Options]

@@ -1,8 +1,6 @@
-import type { OptionalRestArgsOrSkip } from '#src/types.ts'
+import type { OptionalRestArgsAndOptions } from '#src/types.ts'
 import type { FunctionArgs, FunctionReference, FunctionReturnType } from 'convex/server'
-
-import type { MaybeRefOrGetter, Ref } from 'vue'
-
+import type { Ref } from 'vue'
 import {
   getFunctionName,
 } from 'convex/server'
@@ -18,9 +16,6 @@ export interface UseConvexQueryOptions {
   server?: boolean
 }
 
-export type EmptyObject = Record<string, never>
-export type OptionalRestArgsOrSkip<FuncRef extends FunctionReference<any>> = FuncRef['_args'] extends EmptyObject ? [args?: EmptyObject | undefined, opts?: UseConvexQueryOptions ] : [args: MaybeRefOrGetter<FuncRef['_args']>, opts?: UseConvexQueryOptions]
-
 export interface UseConvexQueryReturn<Query extends FunctionReference<'query'>> {
   data: Ref<FunctionReturnType<Query> | undefined>
   error: Ref<Error | null>
@@ -28,14 +23,13 @@ export interface UseConvexQueryReturn<Query extends FunctionReference<'query'>> 
   suspense: () => Promise<FunctionReturnType<Query>>
 }
 
-export function useConvexQuery<Query extends FunctionReference<'query'>>(query: Query, ...args: OptionalRestArgsOrSkip<Query>): UseConvexQueryReturn<Query> {
-
-  const queryArgs = computed(() => toValue(args[0]))
-  const opts = args[1]
+export function useConvexQuery<Query extends FunctionReference<'query'>>(query: Query, ...rest: OptionalRestArgsAndOptions<Query, UseConvexQueryOptions>): UseConvexQueryReturn<Query> {
+  const queryArgs = computed(() => toValue(rest[0]))
+  const queryOpts = rest[1]
 
   const convexContext = useConvexContext()
   const isServer = typeof window === 'undefined'
-  const ssrEnabled = opts?.server ?? convexContext.options.server ?? true
+  const ssrEnabled = queryOpts?.server ?? convexContext.options.server ?? true
 
   // server-side but ssr explicitly disabled
   if (isServer && !ssrEnabled) {
