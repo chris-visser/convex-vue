@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.5
+
+[compare changes](https://github.com/chris-visser/convex-vue/compare/v0.1.4...v0.1.5)
+
+### 🌊 Types
+
+- Fix duplicated type and better naming ([bfe18cb](https://github.com/chris-visser/convex-vue/commit/bfe18cb))
+
+### ❤️ Contributors
+
+- NamesMT ([@NamesMT](https://github.com/NamesMT))
+
 ## v0.1.4
 
 [compare changes](https://github.com/chris-visser/convex-vue/compare/v0.1.3...v0.1.4)
