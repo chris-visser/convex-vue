@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "convex-mcp": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "convex@latest", "mcp", "start"]
+    }
+  }
+}

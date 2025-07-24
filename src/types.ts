@@ -1,11 +1,11 @@
 import type { FunctionReference } from 'convex/server'
 import type { MaybeRefOrGetter } from 'vue'
 
-export type IsOptionalKey<T, K extends keyof T> =
-  object extends Pick<T, K> ? true : false
+export type IsOptionalKey<T, K extends keyof T>
+  = object extends Pick<T, K> ? true : false
 
-export type AreAllPropertiesOptional<T> =
-  true extends {
+export type AreAllPropertiesOptional<T>
+  = true extends {
     [K in keyof T]: IsOptionalKey<T, K> extends true ? never : true
   }[keyof T]
     ? false
